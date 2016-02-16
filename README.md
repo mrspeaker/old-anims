@@ -4,7 +4,9 @@
 
 ## Runnin'
 
-```npm install
-npm start``
+```
+npm install
+npm start
+```
 
 browse on `localhost:9966`
