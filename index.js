@@ -38,8 +38,8 @@ const DRAW = (dt) => {
   EXPAND(time, -CTX, height * 1.5);
   EXPAND(time, width * 1.5, height * 1.5);
 
-  EXPAND(time - 1100, CTX, CTY);
-  if (time > 1100) {
+  EXPAND(time - 1180, CTX, CTY);
+  if (time > 1180) {
     time = 0;
   }
 
