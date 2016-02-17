@@ -2,6 +2,10 @@
 "use strict";
 
 var ctx = document.querySelector("#board").getContext("2d");
+var _ctx$canvas = ctx.canvas;
+var width = _ctx$canvas.width;
+var height = _ctx$canvas.height;
+
 
 var PLYGN = function PLYGN(N, ANGLE, R, XCTR, YCTR) {
   ctx.beginPath();
@@ -15,12 +19,34 @@ var PLYGN = function PLYGN(N, ANGLE, R, XCTR, YCTR) {
   ctx.stroke();
 };
 
+var EXPAND = function EXPAND(TIME, XCTR, YCTR) {
+  PLYGN(30, 0, TIME, XCTR, YCTR);
+};
+
 var off = 0;
+var time = 0;
 var DRAW = function DRAW(dt) {
   off += 0.001 * dt;
+  time += dt;
 
-  PLYGN(5, off, 30, 150, 50);
-  PLYGN(8, -off, 30, 150, 50);
+  var CTX = width * 0.5;
+  var CTY = height * 0.5;
+
+  PLYGN(5, off, 30, CTX, CTY);
+  PLYGN(8, -off, 30, CTX, CTY);
+
+  EXPAND(time / 10, width * 0.5, -height * 0.5);
+  EXPAND(time / 10, width * 0.5, height * 0.5);
+  EXPAND(time / 10, width * 0.5, height * 1.5);
+
+  EXPAND(time / 10, -width * 0.5, height * 0.5);
+  EXPAND(time / 10, width * 1.5, height * 0.5);
+
+  EXPAND((time - 11000) / 10, CTX, CTY);
+
+  if (time > 11 * 1000) {
+    time = 0;
+  }
 };
 
 ctx.strokeStyle = "#ff0";
@@ -30,10 +56,10 @@ var last = undefined;
 var loopy = function loopy(t) {
   requestAnimationFrame(loopy);
   if (!last) last = t;
-  var dt = last - t;
+  var dt = t - last;
   last = t;
 
-  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  ctx.clearRect(0, 0, width, height);
   DRAW(dt);
 };
 requestAnimationFrame(loopy);
