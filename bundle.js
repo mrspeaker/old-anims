@@ -7,13 +7,16 @@ var width = _ctx$canvas.width;
 var height = _ctx$canvas.height;
 
 
+var CTX = width * 0.5;
+var CTY = height * 0.5;
+
 var PLYGN = function PLYGN(N, ANGLE, R, XCTR, YCTR) {
   ctx.beginPath();
   for (var J = 0; J < N; J++) {
     var X = R * Math.cos(Math.PI * 2 * J / N + ANGLE) + XCTR;
     var Y = R * Math.sin(Math.PI * 2 * J / N + ANGLE) + YCTR;
 
-    ctx[J === 0 ? "moveTo" : "lineTo"](X, Y);
+    ctx[J ? "lineTo" : "moveTo"](X, Y);
   }
   ctx.closePath();
   ctx.stroke();
@@ -27,26 +30,26 @@ var off = 0;
 var time = 0;
 var DRAW = function DRAW(dt) {
   off += 0.001 * dt;
-  time += dt;
+  time += dt * 0.1;
 
-  var CTX = width * 0.5;
-  var CTY = height * 0.5;
+  EXPAND(time, CTX, -CTY);
+  EXPAND(time, CTX, CTY);
+  EXPAND(time, CTX, height * 1.5);
+  EXPAND(time, -CTX, CTY);
+  EXPAND(time, width * 1.5, CTY);
+
+  EXPAND(time, -CTX, -CTY);
+  EXPAND(time, width * 1.5, -CTY);
+  EXPAND(time, -CTX, height * 1.5);
+  EXPAND(time, width * 1.5, height * 1.5);
+
+  EXPAND(time - 1100, CTX, CTY);
+  if (time > 1100) {
+    time = 0;
+  }
 
   PLYGN(5, off, 30, CTX, CTY);
   PLYGN(8, -off, 30, CTX, CTY);
-
-  EXPAND(time / 10, width * 0.5, -height * 0.5);
-  EXPAND(time / 10, width * 0.5, height * 0.5);
-  EXPAND(time / 10, width * 0.5, height * 1.5);
-
-  EXPAND(time / 10, -width * 0.5, height * 0.5);
-  EXPAND(time / 10, width * 1.5, height * 0.5);
-
-  EXPAND((time - 11000) / 10, CTX, CTY);
-
-  if (time > 11 * 1000) {
-    time = 0;
-  }
 };
 
 ctx.strokeStyle = "#ff0";
