@@ -1,8 +1,8 @@
 const ctx = document.querySelector("#board").getContext("2d");
 const {width, height} = ctx.canvas;
-
 const CTX = width * 0.5;
 const CTY = height * 0.5;
+ctx.strokeStyle = "#fff";
 
 const PLYGN = (N, ANGLE, R, XCTR, YCTR) => {
   ctx.beginPath();
@@ -16,43 +16,37 @@ const PLYGN = (N, ANGLE, R, XCTR, YCTR) => {
   ctx.stroke();
 };
 
-const EXPAND = (TIME, XCTR, YCTR) => {
-  PLYGN(60, 0, TIME, XCTR, YCTR);
-};
+const CIRCLE = (R, XCTR, YCTR) => PLYGN(60, R, R, XCTR, YCTR);
 
-
-let off = 0;
 let time = 0;
+const length = 1180;
 const DRAW = (dt) => {
-  off += 0.001 * dt;
   time += dt * 0.1;
+  const t = time % length;
 
-  EXPAND(time, CTX, -CTY);
-  EXPAND(time, CTX, CTY);
-  EXPAND(time, CTX, height * 1.5);
-  EXPAND(time, -CTX, CTY);
-  EXPAND(time, width * 1.5, CTY);
+  CIRCLE(t, CTX, CTY);
 
-  EXPAND(time, -CTX, -CTY);
-  EXPAND(time, width * 1.5, -CTY);
-  EXPAND(time, -CTX, height * 1.5);
-  EXPAND(time, width * 1.5, height * 1.5);
+  CIRCLE(t, -CTX, CTY);
+  CIRCLE(t, CTX, -CTY);
+  CIRCLE(t, CTX + width, CTY);
+  CIRCLE(t, CTX, CTY + height);
 
-  EXPAND(time - 1180, CTX, CTY);
-  if (time > 1180) {
-    time = 0;
-  }
+  CIRCLE(t, -CTX, -CTY);
+  CIRCLE(t, CTX + width, -CTY);
+  CIRCLE(t, -CTX, CTY + height);
+  CIRCLE(t, CTX + width, CTY + height);
 
-  PLYGN(5, off, 30, CTX, CTY);
-  PLYGN(8, -off, 30, CTX, CTY);
+  // Final circle
+  CIRCLE(t - length, CTX, CTY);
 
+  // The polygons
+  PLYGN(5, time / 100, 30, CTX, CTY);
+  PLYGN(8, -time / 100, 30, CTX, CTY);
 };
-
-ctx.strokeStyle = "#fff";
 
 // Loopin'
 let last;
-const loopy = (t) => {
+const loopy = t => {
   requestAnimationFrame(loopy);
   if (!last) last = t;
   const dt = t - last;
