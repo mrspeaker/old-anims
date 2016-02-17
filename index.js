@@ -17,7 +17,7 @@ const PLYGN = (N, ANGLE, R, XCTR, YCTR) => {
 };
 
 const EXPAND = (TIME, XCTR, YCTR) => {
-  PLYGN(30, 0, TIME, XCTR, YCTR);
+  PLYGN(60, 0, TIME, XCTR, YCTR);
 };
 
 
