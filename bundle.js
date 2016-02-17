@@ -23,7 +23,7 @@ var PLYGN = function PLYGN(N, ANGLE, R, XCTR, YCTR) {
 };
 
 var EXPAND = function EXPAND(TIME, XCTR, YCTR) {
-  PLYGN(30, 0, TIME, XCTR, YCTR);
+  PLYGN(60, 0, TIME, XCTR, YCTR);
 };
 
 var off = 0;
