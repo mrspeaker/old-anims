@@ -48,7 +48,7 @@ const DRAW = (dt) => {
 
 };
 
-ctx.strokeStyle = "#ff0";
+ctx.strokeStyle = "#fff";
 
 // Loopin'
 let last;
@@ -58,7 +58,9 @@ const loopy = (t) => {
   const dt = t - last;
   last = t;
 
-  ctx.clearRect(0, 0, width, height);
+  ctx.globalAlpha = 0.9;
+  ctx.fillRect(0, 0, width, height);
+  ctx.globalAlpha = 1;
   DRAW(dt);
 };
 requestAnimationFrame(loopy);
