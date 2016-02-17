@@ -27,19 +27,25 @@ const DRAW = (dt) => {
   off += 0.001 * dt;
   time += dt * 0.1;
 
-  PLYGN(5, off, 30, CTX, CTY);
-  PLYGN(8, -off, 30, CTX, CTY);
-
   EXPAND(time, CTX, -CTY);
   EXPAND(time, CTX, CTY);
   EXPAND(time, CTX, height * 1.5);
   EXPAND(time, -CTX, CTY);
   EXPAND(time, width * 1.5, CTY);
 
+  EXPAND(time, -CTX, -CTY);
+  EXPAND(time, width * 1.5, -CTY);
+  EXPAND(time, -CTX, height * 1.5);
+  EXPAND(time, width * 1.5, height * 1.5);
+
   EXPAND(time - 1100, CTX, CTY);
   if (time > 1100) {
     time = 0;
   }
+
+  PLYGN(5, off, 30, CTX, CTY);
+  PLYGN(8, -off, 30, CTX, CTY);
+
 };
 
 ctx.strokeStyle = "#ff0";
